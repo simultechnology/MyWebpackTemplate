@@ -8,6 +8,7 @@ module.exports = {
   devServer: {
     contentBase: path.resolve(__dirname, './public'),
     host: '127.0.0.1',
-    port: 9590
+    port: 9590,
+    open: true
   }
 };
