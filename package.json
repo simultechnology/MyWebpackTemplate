@@ -3,6 +3,7 @@
     "start": "./node_modules/.bin/webpack-dev-server --hot"
   },
   "devDependencies": {
+    "prettier": "^1.5.3",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.7.1"
   }
