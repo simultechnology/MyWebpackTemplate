@@ -82,8 +82,12 @@ console.log(Object(__WEBPACK_IMPORTED_MODULE_0__hello__["a" /* default */])());
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = hello;
 function hello() {
-  return 'Hello World!!aaaaaaaaaaaaaaaaaaaaaaaaaaaa taaaa';
+  var a = 'ishikawa';
+  let number = a.charCodeAt(2);
+  console.log(number);
+  return 'Hello World!!--------';
 }
+
 
 /***/ })
 /******/ ]);

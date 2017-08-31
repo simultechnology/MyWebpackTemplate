@@ -60,30 +60,53 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */
+/* 0 */,
+/* 1 */,
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__hello__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__assert__ = __webpack_require__(3);
 
 
-console.log(Object(__WEBPACK_IMPORTED_MODULE_0__hello__["a" /* default */])());
+Object(__WEBPACK_IMPORTED_MODULE_0__assert__["a" /* default */])(true, "test assert!");
+console.log('use-generator!');
 
 
 /***/ }),
-/* 1 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = hello;
-function hello() {
-  return 'Hello World!! taaaaaaaaaaaaaaaaaaaaaaaaaaaaaak!!!!';
+/* harmony export (immutable) */ __webpack_exports__["a"] = assert;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__css_assert_css__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__css_assert_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__css_assert_css__);
+
+
+function assert(value, desc) {
+  const li = document.createElement('li');
+  li.className = value ? 'pass' : 'fail';
+  li.appendChild(document.createTextNode(desc));
+  let result = document.getElementById('results');
+  if (!result) {
+    result = document.createElement('div');
+    result.setAttribute('id', 'results');
+    document.getElementsByTagName('body')[0].appendChild(result);
+  }
+  result.appendChild(li);
 }
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+throw new Error("Module parse failed: /Users/t_ishikawa/workspace/js_work/MyWebpackTemplate/src/css/assert.css Unexpected character '#' (2:0)\nYou may need an appropriate loader to handle this file type.\n| \n| #results li.pass { color: green; }\n| #results li.fail { color: red; }\n| ");
 
 /***/ })
 /******/ ]);

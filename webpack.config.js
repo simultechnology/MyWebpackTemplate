@@ -14,13 +14,13 @@ module.exports = [
   //   }
   // },
   {
-    entry: './src/js/timer.js',
+    entry: { timer: './src/js/timer.js', 'use-generator': './src/js/use-generator.js' },
     output: {
       path: path.resolve(__dirname, './dist'),
-      filename: "timer.bundle.js"
+      filename: '[name].bundle.js'
     },
     devServer: {
-      contentBase: path.resolve(__dirname, './dist'),
+      contentBase: path.resolve(__dirname, './public'),
       host: '127.0.0.1',
       port: 9591,
       watchOptions: {
@@ -29,6 +29,13 @@ module.exports = [
       },
       open: true
     },
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader']
+        }
+      ]
+    }
   }
-
 ];
