@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <script src="//api.its-mo.com/v3/loader?key=JSZ9ea6d26ac8a7|VbFeP&api=zdcmap.js,search.js,userwidget.js,control.js&enc=UTF8&force=1" type="text/javascript"></script>
+  <script type="text/javascript">
+
+    'use strict';
+
+    var map, msg;
+
+    function loadMap() {
+      map = new ZDC.Map(
+        document.getElementById('ZMap'),
+        {
+          latlon: new ZDC.LatLon(35.6878614, 139.6993167),
+          mapType: ZDC.MAPTYPE_HIGHRESOLUTION,
+          zoom: 10
+        }
+      );
+
+      /* 緯度経度で周辺のPOI探索を実行 */
+      /* ジャンルコード（コンビニ：0014000180） */
+      ZDC.Search.getByZmaps('poi/latlon', {
+        latlon: '35.6863166,139.695047',
+        genrecode: '0014000180',
+        limit: '0,30'
+      },function(status, res) {
+        if (status.code === 200 && res.status.code === '0000') {
+          /* 取得成功 */
+          var fetchByOne = createItemGenerator(res);
+          createButton(fetchByOne);
+        }
+      });
+
+      map.addWidget(new ZDC.ScaleBar());
+      map.addWidget(new ZDC.Control());
+    }
+
+
+    function createButton(fetchIterator) {
+      /* 表示位置を固定したユーザウィジットを作成 */
+      var widget = new ZDC.StaticUserWidget({ top: 10, right: 20 }, {
+        html: '<button>１つずつ表示</button>'}
+      );
+      map.addWidget(widget);
+      widget.open();
+
+      var latlons = [];
+
+      ZDC.addListener(widget, ZDC.STATICUSERWIDGET_MOUSEDOWN, function () {
+        if (fetchIterator) {
+          // 次の値を取得する
+          var item = fetchIterator.next();
+          // イテレータが終了していない場合は処理を進める
+          if (!item.done) {
+            var marker = createMarker(item.value);
+            latlons.push(marker.getLatLon());
+            /* 地点が全て表示できる縮尺レベルを取得 */
+            var adjust = map.getAdjustZoom(latlons);
+            map.moveLatLon(adjust.latlon);
+            map.setZoom(adjust.zoom);
+          }
+        }
+      });
+    }
+
+
+    function* createItemGenerator(res) {
+      var items = res.item;
+      for (var item of items) {
+        yield item;
+      }
+    }
+
+    function createMarker(item) {
+      var itemlatlon = new ZDC.LatLon(item.poi.point.lat, item.poi.point.lon);
+      var marker = new ZDC.Marker(itemlatlon);
+      map.addWidget(marker);
+      /* マーカをクリックしたときの動作 */
+      ZDC.bind(marker, ZDC.MARKER_CLICK, item.poi, markerClick);
+
+      return marker;
+    }
+
+    function markerClick() {
+
+      var labelhtml;
+      labelhtml = '<div><div><b>' + this.text + '</b></div>';
+      labelhtml += '<table><tr><td>\u3012' + this.zipcode + ' ' + this.addressText + '</td></tr>';
+      labelhtml += '<tr><td>電話番号：' + this.phoneNumber + '</td></tr></table></div>';
+
+      var latlon = new ZDC.LatLon(this.point.lat, this.point.lon);
+
+      if (!msg) {
+        msg = new ZDC.MsgInfo(latlon, {offset: ZDC.Pixel(0, -18)});
+        map.addWidget(msg);
+      } else {
+        msg.moveLatLon(latlon);
+      }
+
+      msg.setHtml(labelhtml);
+      msg.open();
+    }
+
+  </script>
+</head>
+
+<body onload="loadMap();">
+<div id="ZMap" style="border:1px solid #777777; width:750px; height:500px; top:0px; left:20px; position:absolute;"></div>
+</body>
+</html>

@@ -21,11 +21,10 @@ module.exports = [
     },
     devServer: {
       contentBase: path.resolve(__dirname, './public'),
-      host: '127.0.0.1',
+      host: 'localhost',
       port: 9591,
       watchOptions: {
-        watch: true,
-        poll: 1000
+        watch: true
       },
       open: true
     },
