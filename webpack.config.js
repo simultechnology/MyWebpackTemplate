@@ -14,7 +14,7 @@ module.exports = [
   //   }
   // },
   {
-    entry: { timer: './src/js/timer.js', 'use-generator': './src/js/use-generator.js' },
+    entry: { timer: './src/js/timer.js', 'use-generator': './src/js/use-generator.js', 'use-promise': './src/js/use-promise.js' },
     output: {
       path: path.resolve(__dirname, './dist'),
       filename: '[name].bundle.js'

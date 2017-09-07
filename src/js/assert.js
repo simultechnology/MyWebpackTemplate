@@ -1,6 +1,6 @@
 import css from '../css/assert.css';
 
-export { assert, showSeparateLine };
+export { assert, showSeparateLine, report };
 
 function assert(value, desc) {
   const li = document.createElement('li');
@@ -30,6 +30,15 @@ function showSeparateLine(headline = '') {
   const li = document.createElement('li');
   li.appendChild(
     document.createTextNode(headline + ' --------------------------------------------------')
+  );
+  let results = getResultsArea();
+  results.appendChild(li);
+}
+
+function report(text) {
+  const li = document.createElement('li');
+  li.appendChild(
+    document.createTextNode(text)
   );
   let results = getResultsArea();
   results.appendChild(li);

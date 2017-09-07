@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -704,7 +704,8 @@ module.exports = function (css) {
 /***/ }),
 /* 6 */,
 /* 7 */,
-/* 8 */
+/* 8 */,
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -712,47 +713,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__assert__ = __webpack_require__(0);
 
 
-(function() {
-  function* WeaponGenerator() {
-    yield 'Katana';
-    yield 'Wakizashi';
-  }
-  const weaponsIterator = WeaponGenerator();
+(function () {
 
-  const result1 = weaponsIterator.next();
-  Object(__WEBPACK_IMPORTED_MODULE_0__assert__["a" /* assert */])(
-    typeof result1 === 'object' && result1.value === 'Katana' && !result1.done,
-    'Katana received!'
-  );
-  const result2 = weaponsIterator.next();
-  Object(__WEBPACK_IMPORTED_MODULE_0__assert__["a" /* assert */])(
-    typeof result2 === 'object' && result2.value === 'Wakizashi' && !result2.done,
-    'Wakizashi received!'
-  );
-  const result3 = weaponsIterator.next();
-  Object(__WEBPACK_IMPORTED_MODULE_0__assert__["a" /* assert */])(typeof result3.done, 'finished!');
-})();
+  console.log('start!');
 
-Object(__WEBPACK_IMPORTED_MODULE_0__assert__["c" /* showSeparateLine */])();
+  const ninjaPromise = new Promise((resolve, reject) => {
+    resolve('Hattori');
+  });
 
-(function() {
-  function* NinjaGenerator(action) {
-    const imposter = yield 'Hattori ' + action;
+  ninjaPromise.then(ninja => {
+    Object(__WEBPACK_IMPORTED_MODULE_0__assert__["a" /* assert */])(ninja === 'Hattori', 'We were promised Hattori!');
+    Object(__WEBPACK_IMPORTED_MODULE_0__assert__["c" /* showSeparateLine */])();
+  }, error => {
+    fail("Then shouldn't be an error");
+  });
 
-    Object(__WEBPACK_IMPORTED_MODULE_0__assert__["a" /* assert */])(imposter === 'Hanzo', 'The generator has been infiltrated');
 
-    yield 'Yoshi (' + imposter + ') ' + action;
-  }
+} ());
 
-  const ninjaIterator = NinjaGenerator('skulk');
+setTimeout(() => {
+  Object(__WEBPACK_IMPORTED_MODULE_0__assert__["b" /* report */])('At code start');
 
-  const result1 = ninjaIterator.next();
-  Object(__WEBPACK_IMPORTED_MODULE_0__assert__["a" /* assert */])(result1.value === 'Hattori skulk', 'Hattori is skulking');
+  const ninjaDelayedPromise = new Promise((resolve, reject) => {
+    Object(__WEBPACK_IMPORTED_MODULE_0__assert__["b" /* report */])('ninjaDelayedPromise executor');
+    setTimeout(() => {
+      Object(__WEBPACK_IMPORTED_MODULE_0__assert__["b" /* report */])('Resolving ninjaDelayedPromise');
+      resolve('Hattori');
+    });
+  });
 
-  const result2 = ninjaIterator.next('Hanzo');
-  Object(__WEBPACK_IMPORTED_MODULE_0__assert__["a" /* assert */])(result2.value === 'Yoshi (Hanzo) skulk', 'We have an imposter!');
-})();
+  Object(__WEBPACK_IMPORTED_MODULE_0__assert__["a" /* assert */])(ninjaDelayedPromise !== null, 'After creating ninjaDelayedPromise');
 
+  ninjaDelayedPromise.then(ninja => {
+    Object(__WEBPACK_IMPORTED_MODULE_0__assert__["a" /* assert */])(ninja === 'Hattori', 'ninjaDelayedPromise resolve handled with Hattori');
+  });
+
+  const ninjaImmediatePromise = new Promise((resolve, reject) => {
+    Object(__WEBPACK_IMPORTED_MODULE_0__assert__["b" /* report */])('ninjaImmediatePromise executor. Immediate resolve.');
+    resolve('Yoshi');
+  });
+
+  ninjaImmediatePromise.then(ninja => {
+    Object(__WEBPACK_IMPORTED_MODULE_0__assert__["a" /* assert */])(ninja === 'Yoshi', 'ninjaImmediatePromise resolve handled with Yoshi');
+  });
+
+  Object(__WEBPACK_IMPORTED_MODULE_0__assert__["b" /* report */])('At code end');
+
+}, 100);
 
 /***/ })
 /******/ ]);
