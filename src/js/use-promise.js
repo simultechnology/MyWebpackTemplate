@@ -1,4 +1,5 @@
-import { assert, showSeparateLine, report } from './assert';
+import { assert, showSeparateLine, report, pass, fail } from './assert';
+import utils from './utils';
 
 (function () {
 
@@ -10,7 +11,6 @@ import { assert, showSeparateLine, report } from './assert';
 
   ninjaPromise.then(ninja => {
     assert(ninja === 'Hattori', 'We were promised Hattori!');
-    showSeparateLine();
   }, error => {
     fail("Then shouldn't be an error");
   });
@@ -19,6 +19,7 @@ import { assert, showSeparateLine, report } from './assert';
 } ());
 
 setTimeout(() => {
+  showSeparateLine();
   report('At code start');
 
   const ninjaDelayedPromise = new Promise((resolve, reject) => {
@@ -44,6 +45,30 @@ setTimeout(() => {
     assert(ninja === 'Yoshi', 'ninjaImmediatePromise resolve handled with Yoshi');
   });
 
+  // 現在のイベントループで実行するため、他の処理をblockしていることを確認する用のこの処理を追加
+  const arr = Array.from(Array(300000)).map((v, k) => k);
+  report(arr.join(''));
+
   report('At code end');
 
+}, 10);
+
+setTimeout(() => {
+  showSeparateLine();
+  report('error example start!');
+
+  const promise = new Promise((resolve, reject) => {
+    undeclaredVariable++;
+  });
+
+  promise.then(() => fail("Happy path, won't be called!"))
+    .catch(error => pass("Third promise was also rejected"));
+
+}, 50);
+
+setTimeout(() => {
+  showSeparateLine();
+  utils.getJSON("data/ninjas.json").then(ninjas => {
+    assert(ninjas !== null, "Ninjas obtained!");
+  }).catch(e => fail("Shouldn't be here:" + e));
 }, 100);

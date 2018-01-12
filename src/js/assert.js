@@ -1,6 +1,6 @@
 import css from '../css/assert.css';
 
-export { assert, showSeparateLine, report };
+export { assert, showSeparateLine, report, pass, fail };
 
 function assert(value, desc) {
   const li = document.createElement('li');
@@ -40,6 +40,18 @@ function report(text) {
   li.appendChild(
     document.createTextNode(text)
   );
+  let results = getResultsArea();
+  results.appendChild(li);
+}
+
+const pass = report;
+
+function fail(text) {
+  const li = document.createElement('li');
+  li.appendChild(
+    document.createTextNode(text)
+  );
+  li.className = 'fail';
   let results = getResultsArea();
   results.appendChild(li);
 }
